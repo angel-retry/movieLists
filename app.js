@@ -33,7 +33,10 @@ app.get('/movies', (req, res) => {
 // 取得單一電影資訊
 app.get('/movies/:id', (req, res) => {
   const { id } = req.params
-  res.send(`render movie: ${id}`)
+  // 使用find會回傳條件的資料
+  // mv.id的型態不是字串，所以加上toString()轉為字串才可以比對(===嚴格檢查，也會對比型態是否一樣)
+  const movie = movies.find((mv) => mv.id.toString() === id)
+  res.render('detail', { movie, BASE_IMG_URL })
 })
 
 app.listen(port, () => {
