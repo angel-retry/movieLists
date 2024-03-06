@@ -27,7 +27,24 @@ app.get('/', (req, res) => {
 
 // 首頁:電影列表
 app.get('/movies', (req, res) => {
-  res.render('index', { movies, BASE_IMG_URL })
+
+  //  ? 確保req.query.search不會出錯
+  //  trim()會清空前後空白字串
+  const keyword = req.query.search?.trim()
+  // 如果有接收關鍵字，執行搜尋功能，否就變回原樣
+  const matchedMovies = keyword ?
+    // 使用filter回傳新陣列
+    // 使用Object.values(mv)取出mv所有屬性形成陣列
+    // 使用some是對陣列的值做出條件判斷會回傳true/false
+    movies.filter(mv => Object.values(mv).some(property => {
+      
+      if (typeof property === 'string') {
+        return property.toLocaleLowerCase().includes(keyword.toLocaleLowerCase())
+      }
+      return false
+    }))
+    : movies
+  res.render('index', { movies: matchedMovies, BASE_IMG_URL })
 })
 
 // 取得單一電影資訊
@@ -38,6 +55,7 @@ app.get('/movies/:id', (req, res) => {
   const movie = movies.find((mv) => mv.id.toString() === id)
   res.render('detail', { movie, BASE_IMG_URL })
 })
+
 
 app.listen(port, () => {
   console.log(`express server is running on http://localhost:${port}`)
