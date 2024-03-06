@@ -30,6 +30,7 @@ npm install
 npm run dev
 ```
 5. 現在，可開啟任一瀏覽器輸入[http://localhost:3000](http://localhost:3000) 開始使用此網站。
+```
 npx sequelize db:migrate
 ```
 
