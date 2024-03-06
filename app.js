@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+// 取得靜態網站
+app.use(express.static('public'))
+
 // 首頁
 app.get('/', (req, res) => {
   res.redirect('/movies')
