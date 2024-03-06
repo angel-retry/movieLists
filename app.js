@@ -2,6 +2,10 @@ const express = require('express')
 const { engine } = require('express-handlebars')
 const app = express()
 const port = 3000
+// 取得movies
+const movies = require('./public/jsons/movies.json').results
+// 定義圖片URL
+const BASE_IMG_URL = 'https://movie-list.alphacamp.io/posters/'
 
 // 模板引擎
 // 告訴Express遇到附檔名.hbs，就使用指定模板引擎來渲染他
@@ -14,6 +18,8 @@ app.set('views', './views');
 // 取得靜態網站
 app.use(express.static('public'))
 
+
+
 // 首頁
 app.get('/', (req, res) => {
   res.redirect('/movies')
@@ -21,7 +27,7 @@ app.get('/', (req, res) => {
 
 // 首頁:電影列表
 app.get('/movies', (req, res) => {
-  res.render('index')
+  res.render('index', { movies, BASE_IMG_URL })
 })
 
 // 取得單一電影資訊
